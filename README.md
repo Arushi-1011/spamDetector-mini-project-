@@ -35,6 +35,18 @@ Open `spam_classifier.ipynb` in Jupyter Notebook or VS Code and run the cells fr
 5. Train Logistic Regression with balanced class weights.
 6. Evaluate on the held-out test set.
 7. Save the complete preprocessing + classifier pipeline in `spam_classifier_model.joblib`.
+## Results (held-out test set, 1,032 messages, random_state=42)
+
+| Metric | Value |
+|---|---|
+| Accuracy | 97.97% |
+| Precision (spam) | 90.84% |
+| Recall (spam) | 92.97% |
+| F1 (spam) | 0.919 |
+| ROC-AUC | 0.991 |
+
+Confusion matrix: 892 TN, 12 FP, 9 FN, 119 TP.
+Full output in `metrics.json`.
 
 ## Important evaluation note
 The metrics in `metrics.json` are from a single stratified hold-out split with `random_state=42`. Results depend on the split and configuration. Do not alter the test labels or tune repeatedly against the test set just to force a target accuracy. Report the actual results produced by the training script.
@@ -47,6 +59,5 @@ The metrics in `metrics.json` are from a single stratified hold-out split with `
 - `spam.csv` — cleaned dataset
 - `metrics.json` — measured test-set metrics
 - `project_report.md` — concise project report
-- `viva_prep.md` — viva questions and answers
 - `SMSSpamCollection` — original UCI text corpus
 - `readme` — original dataset notes
