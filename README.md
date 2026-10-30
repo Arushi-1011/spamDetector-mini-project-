@@ -21,6 +21,8 @@ python train_model.py
 streamlit run app.py
 ```
 Open the local URL printed by Streamlit (normally http://localhost:8501).
+## Live Demo 
+https://smspamdetector.streamlit.app
 
 ## Notebook
 Open `spam_classifier.ipynb` in Jupyter Notebook or VS Code and run the cells from top to bottom. It covers dataset inspection, class distribution, preprocessing, TF-IDF, Logistic Regression, evaluation, and example predictions.
