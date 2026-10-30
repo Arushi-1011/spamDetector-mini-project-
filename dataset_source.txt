@@ -1,0 +1,3 @@
+Dataset: UCI Machine Learning Repository — SMS Spam Collection (Dataset 228)
+Official page: https://archive.ics.uci.edu/dataset/228/sms+spam+collection
+The uploaded archive contained SMSSpamCollection and readme. The included spam.csv was parsed from that original corpus.
