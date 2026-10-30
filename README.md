@@ -1,4 +1,4 @@
-# Spam Detector — Predictive Analytics Mini Project
+# Spam Detector - Predictive Analytics Mini Project
 
 A working SMS spam classifier built with the **UCI SMS Spam Collection** dataset, TF-IDF text features, and Logistic Regression. It includes an executed Jupyter notebook, a reusable training script, a saved model, and a Streamlit interface.
 
