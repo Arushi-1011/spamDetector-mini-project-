@@ -30,6 +30,23 @@ def main():
         X, y, test_size=0.20, random_state=42, stratify=y
     )
 
+    # Random oversampling is applied ONLY to the training set.
+    # The held-out test set remains unchanged to preserve realistic evaluation.
+    train_df = pd.DataFrame({"message": X_train, "label": y_train})
+    ham_train = train_df[train_df["label"] == 0]
+    spam_train = train_df[train_df["label"] == 1]
+    spam_oversampled = spam_train.sample(
+        n=len(ham_train), replace=True, random_state=42
+    )
+    balanced_train = pd.concat([ham_train, spam_oversampled]).sample(
+        frac=1, random_state=42
+    )
+    X_train_balanced = balanced_train["message"]
+    y_train_balanced = balanced_train["label"]
+
+    print("Original training counts:", y_train.value_counts().to_dict())
+    print("Balanced training counts:", y_train_balanced.value_counts().to_dict())
+
     model = Pipeline([
         ("tfidf", TfidfVectorizer(
             lowercase=True, strip_accents="unicode",
@@ -37,10 +54,10 @@ def main():
             sublinear_tf=True, stop_words="english"
         )),
         ("classifier", LogisticRegression(
-            max_iter=1000, class_weight="balanced", random_state=42
+            max_iter=1000, random_state=42
         ))
     ])
-    model.fit(X_train, y_train)
+    model.fit(X_train_balanced, y_train_balanced)
 
     predictions = model.predict(X_test)
     probabilities = model.predict_proba(X_test)[:, 1]
@@ -49,6 +66,9 @@ def main():
         "ham_count": int((y == 0).sum()),
         "spam_count": int((y == 1).sum()),
         "train_rows": int(len(X_train)),
+        "balanced_train_rows": int(len(X_train_balanced)),
+        "balanced_train_ham": int((y_train_balanced == 0).sum()),
+        "balanced_train_spam": int((y_train_balanced == 1).sum()),
         "test_rows": int(len(X_test)),
         "accuracy": float(accuracy_score(y_test, predictions)),
         "precision_spam": float(precision_score(y_test, predictions, zero_division=0)),

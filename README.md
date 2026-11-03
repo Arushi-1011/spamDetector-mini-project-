@@ -1,4 +1,4 @@
-# Spam Detector - Predictive Analytics Mini Project
+# Spam Detector — Predictive Analytics Mini Project
 
 A working SMS spam classifier built with the **UCI SMS Spam Collection** dataset, TF-IDF text features, and Logistic Regression. It includes an executed Jupyter notebook, a reusable training script, a saved model, and a Streamlit interface.
 
@@ -21,8 +21,6 @@ python train_model.py
 streamlit run app.py
 ```
 Open the local URL printed by Streamlit (normally http://localhost:8501).
-## Live Demo 
-https://smspamdetector.streamlit.app
 
 ## Notebook
 Open `spam_classifier.ipynb` in Jupyter Notebook or VS Code and run the cells from top to bottom. It covers dataset inspection, class distribution, preprocessing, TF-IDF, Logistic Regression, evaluation, and example predictions.
@@ -32,21 +30,10 @@ Open `spam_classifier.ipynb` in Jupyter Notebook or VS Code and run the cells fr
 2. Convert ham/spam labels to 0/1.
 3. Split data into stratified 80% training and 20% testing subsets.
 4. Convert text to numerical TF-IDF unigram/bigram features.
-5. Train Logistic Regression with balanced class weights.
-6. Evaluate on the held-out test set.
-7. Save the complete preprocessing + classifier pipeline in `spam_classifier_model.joblib`.
-## Results (held-out test set, 1,032 messages, random_state=42)
-
-| Metric | Value |
-|---|---|
-| Accuracy | 97.97% |
-| Precision (spam) | 90.84% |
-| Recall (spam) | 92.97% |
-| F1 (spam) | 0.919 |
-| ROC-AUC | 0.991 |
-
-Confusion matrix: 892 TN, 12 FP, 9 FN, 119 TP.
-Full output in `metrics.json`.
+5. Randomly oversample spam messages in the training split only until both classes are equally represented.
+6. Train Logistic Regression on the balanced training set.
+7. Evaluate on the original, untouched held-out test set.
+8. Save the complete preprocessing + classifier pipeline in `spam_classifier_model.joblib`.
 
 ## Important evaluation note
 The metrics in `metrics.json` are from a single stratified hold-out split with `random_state=42`. Results depend on the split and configuration. Do not alter the test labels or tune repeatedly against the test set just to force a target accuracy. Report the actual results produced by the training script.
@@ -59,5 +46,9 @@ The metrics in `metrics.json` are from a single stratified hold-out split with `
 - `spam.csv` — cleaned dataset
 - `metrics.json` — measured test-set metrics
 - `project_report.md` — concise project report
+- `viva_prep.md` — viva questions and answers
 - `SMSSpamCollection` — original UCI text corpus
 - `readme` — original dataset notes
+
+## Class imbalance handling
+The training split uses random oversampling of spam examples to match the ham count. Oversampling is performed after the train-test split; the test set is not resampled. This avoids leakage and preserves evaluation on the original test distribution.

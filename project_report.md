@@ -12,12 +12,13 @@ The project uses the UCI SMS Spam Collection. The original corpus contains 5,572
 3. Encode ham as 0 and spam as 1.
 4. Split into 80% training and 20% test data using stratification and random_state=42.
 5. Convert text to TF-IDF features using unigrams and bigrams.
-6. Train Logistic Regression with balanced class weights.
-7. Evaluate on the held-out test set.
-8. Save the complete TF-IDF + Logistic Regression pipeline for the Streamlit app.
+6. Apply random oversampling to the training set only, duplicating spam examples until ham and spam training counts are equal.
+7. Train Logistic Regression on the balanced training data.
+8. Evaluate on the held-out test set, which remains unchanged.
+9. Save the complete TF-IDF + Logistic Regression pipeline for the Streamlit app.
 
 ## Results
-See `metrics.json` for the exact run results. With the included fixed split, the model achieved approximately 97.97% accuracy, 90.84% spam precision, 92.97% spam recall, 91.89% spam F1-score, and 99.14% ROC-AUC. Confusion matrix format is [[TN, FP], [FN, TP]]: [[892, 12], [9, 119]].
+See `metrics.json` for the exact run results. With the included fixed split, the model achieved 98.26% accuracy, 92.97% spam precision, 92.97% spam recall, 92.97% spam F1-score, and 98.83% ROC-AUC. Confusion matrix format is [[TN, FP], [FN, TP]]: [[895, 9], [9, 119]]. These results use random oversampling on training data only; the test set remains imbalanced and unchanged.
 
 These results are from one hold-out split and are not a guarantee of performance on future messages.
 
